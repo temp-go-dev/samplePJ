@@ -6,6 +6,11 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+var (
+	db  *gorm.DB
+	err error
+)
+
 // Init DB初期化
 func DBInit() *gorm.DB {
 
@@ -27,5 +32,6 @@ func DBInit() *gorm.DB {
 	db.DB().SetMaxOpenConns(100)
 	// SetConnMaxLifetimeは再利用され得る最長時間を設定
 	db.DB().SetConnMaxLifetime(time.Hour)
+
 	return db
 }

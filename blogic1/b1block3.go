@@ -6,9 +6,19 @@ import (
 )
 
 //DBからユーザリスト取得
-func SearchUserDataInUsers() []model.User {
+func SearchUserDataInUsers(userId []string) []model.User {
 	db := access.DBInit()
+
 	users := []model.User{}
-	db.Raw("SELECT * FROM user where id in (1)").Scan(&users)
+
+	//ユーザIDごとDBでユーザ情報を探す
+	for _, userid := range userId {
+		user := model.User{}
+		db.Raw("SELECT * FROM user where id = ?", userid).Scan(&user)
+		if user.ID != "" {
+			users = append(users, user)
+		}
+	}
+
 	return users
 }
